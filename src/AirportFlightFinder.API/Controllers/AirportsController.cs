@@ -1,4 +1,6 @@
-﻿using AirportFlightFinder.Models.Requests;
+﻿using AirportFlightFinder.API.Services.Interface;
+using AirportFlightFinder.Models.Requests;
+using AirportFlightFinder.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirportFlightFinder.API.Controllers
@@ -7,17 +9,29 @@ namespace AirportFlightFinder.API.Controllers
     [Route("[controller]")]
     public class AirportsController : ControllerBase
     {
-        private readonly IAirportsService airportsService;
+        private readonly IAirportsService _airportsService;
 
         public AirportsController(IAirportsService airportsService)
         {
-            this.airportsService = airportsService  ?? throw new ArgumentNullException(nameof(airportsService));
+            _airportsService = airportsService  ?? throw new ArgumentNullException(nameof(airportsService));
+        }
+
+        [HttpGet()]
+        public IActionResult ListAirports()
+        {
+            GetAirportsResponse response = new GetAirportsResponse()
+            {
+                Airports = _airportsService.ListAirports()
+            };
+
+            return Ok(response);
         }
 
 
         [HttpPost("AddAirport")]
         public IActionResult AddAirport(AddAirportRequest request)
         {
+            _airportsService.AddAirport(request.AirportToAdd);
 
             return Ok();
         }
@@ -25,6 +39,7 @@ namespace AirportFlightFinder.API.Controllers
         [HttpPost("RemoveAirport")]
         public IActionResult RemoveAirport(RemoveAirportRequest request)
         {
+            _airportsService.RemoveAirport(request.AirportToRemove);
 
             return Ok();
         }

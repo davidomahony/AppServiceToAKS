@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AirportFlightFinder.Models.Data;
 
 namespace AirportFlightFinder.Models.Requests
 {
     public class RemoveAirportRequest
     {
+        public Airport AirportToRemove { get; set; }
     }
 }
