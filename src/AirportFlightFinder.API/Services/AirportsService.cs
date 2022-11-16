@@ -35,7 +35,7 @@ namespace AirportFlightFinder.API.Services
 
         public void RemoveAirport(Airport airport)
         {
-            if (_airports.Contains(airport))
+            if (!_airports.Contains(airport))
             {
                 throw new BadRequestException("Airport entry does not exist");
             }

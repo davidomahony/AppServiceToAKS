@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\test\AirportFlightFinder.API.Test\AirportFlightFinder.API.Test.csproj" />
     <ProjectReference Include="..\AirportFlightFinder.Models\AirportFlightFinder.Models.csproj" />
   </ItemGroup>
 
