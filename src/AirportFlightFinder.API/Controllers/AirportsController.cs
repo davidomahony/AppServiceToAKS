@@ -39,7 +39,14 @@ namespace AirportFlightFinder.API.Controllers
         [HttpPost("RemoveAirport")]
         public IActionResult RemoveAirport(RemoveAirportRequest request)
         {
-            _airportsService.RemoveAirport(request.AirportToRemove);
+            try
+            {
+                _airportsService.RemoveAirport(request.AirportToRemove);
+            }
+            catch (Exception ex)
+            {
+                //should catch the not found
+            }
 
             return Ok();
         }
