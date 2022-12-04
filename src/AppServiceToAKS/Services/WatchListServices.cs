@@ -1,20 +1,51 @@
-﻿namespace Movie.API.Services
+﻿using Movie.API.Clients;
+using Movie.API.Exceptions;
+
+namespace Movie.API.Services
 {
     public class WatchListServices : IWatchListServices
     {
+        private readonly IList<Movie.API.Models.Movie> _movies;
+        private readonly IOmdbClient _movieClient;
+
+        public WatchListServices(IOmdbClient movieClient)
+        {
+            _movies = new List<Movie.API.Models.Movie>();
+            _movieClient = movieClient;
+        }
+
         public void AddWatchedMovie(Models.Movie movie)
         {
-            throw new NotImplementedException();
+            this.ValidateMovie(movie);
+
+            _movies.Add(movie);
         }
 
         public IEnumerable<Models.Movie> ListWatchedMovies()
         {
-            throw new NotImplementedException();
+            return _movies;
         }
 
         public void RemoveWatchedMovie(Models.Movie movie)
         {
-            throw new NotImplementedException();
+            var movieToRemove = _movies.First(x => 
+                x.Title.Equals(movie.Title) &&
+                x.Released.Equals(movie.Released));
+            if (movieToRemove is null)
+            {
+                throw new MovieNotFoundException();
+            }
+
+            _movies.Remove(movieToRemove);
+        }
+
+        private void ValidateMovie(Movie.API.Models.Movie movie)
+        {
+            var movieInfo = _movieClient.GetMovieInfo(movie.Title);
+            if (movieInfo is null)
+            {
+                throw new MovieNotFoundException();
+            }
         }
     }
 }
