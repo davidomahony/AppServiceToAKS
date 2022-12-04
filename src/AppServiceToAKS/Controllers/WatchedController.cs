@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Movie.API.Exceptions;
+using Movie.API.Models;
 using Movie.API.Models.Responses;
 using Movie.API.Services;
 
@@ -15,14 +17,14 @@ namespace Movie.API.Controllers
             _watchedMoviesService = watchedMoviesService;
         }
 
-        [HttpGet(Name = "List")]
-        public IActionResult ListWatchedMovies()
+        [HttpGet()]
+        public IActionResult GetWatchedMovies()
         {
 
             try
             {
                 return Ok(
-                    new ListWatchedMoviesReponse()
+                    new GetWatchedMoviesReponse()
                     {
                         WatchedMovies = _watchedMoviesService.ListWatchedMovies()
                     });
@@ -33,10 +35,18 @@ namespace Movie.API.Controllers
             }
         }
 
-        [HttpPost(Name = "Add")]
-        public IActionResult AddWatchedMovies()
+        [HttpPost("Add")]
+        public IActionResult AddWatchedMovies([FromBody] MovieRated ratedMovie)
         {
-            return new OkResult();
+            try
+            {
+                _watchedMoviesService.AddWatchedMovies(ratedMovie);
+                return Accepted();
+            }
+            catch (MovieNotFoundException)
+            {
+                return NotFound("Movie does not exist");
+            }
         }
     }
 }
