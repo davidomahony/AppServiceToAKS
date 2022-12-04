@@ -29,8 +29,7 @@ namespace Movie.API.Services
         public void RemoveWatchedMovie(Models.Movie movie)
         {
             var movieToRemove = _movies.First(x => 
-                x.Title.Equals(movie.Title) &&
-                x.Released.Equals(movie.Released));
+                x.Title.Equals(movie.Title));
             if (movieToRemove is null)
             {
                 throw new MovieNotFoundException();
@@ -41,7 +40,7 @@ namespace Movie.API.Services
 
         private void ValidateMovie(Movie.API.Models.Movie movie)
         {
-            var movieInfo = _movieClient.GetMovieInfo(movie.Title);
+            var movieInfo = _movieClient.GetMovieInfo(movie.Title).Result;
             if (movieInfo is null)
             {
                 throw new MovieNotFoundException();

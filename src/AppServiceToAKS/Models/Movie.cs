@@ -4,10 +4,8 @@
     {
         public string Title { get; set; }
 
-        public IEnumerable<string> Genre { get; set; }
+        public string Genre { get; set; }
 
-        public DateTime Released { get; set; }  
-
-        public float ImdbRating { get; set; }
+        public string ImdbRating { get; set; }
     }
 }

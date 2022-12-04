@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddHttpClient<IOmdbClient, OmdbClient>(x => 
-    x.BaseAddress = new Uri("http://www.omdbapi.com"));
+    x.BaseAddress = new Uri("https://www.omdbapi.com"));
 
 builder.Services.AddSingleton<IWatchedMoviesService, WatchedMoviesService>();
 builder.Services.AddSingleton<IWatchListServices, WatchListServices>();

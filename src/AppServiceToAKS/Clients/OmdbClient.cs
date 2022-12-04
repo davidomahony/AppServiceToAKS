@@ -15,13 +15,16 @@ namespace Movie.API.Clients
 
         async Task<Models.Movie> IOmdbClient.GetMovieInfo(string movieName)
         {
-            var response = await _httpClient.GetAsync($"/t={movieName}");
+            var response = await _httpClient.GetAsync($"?t={movieName}&apikey=xxxx");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 throw new MovieNotFoundException();
             }
 
-            return JsonConvert.DeserializeObject<Models.Movie>(await response.Content.ReadAsStringAsync());
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+
+            return JsonConvert.DeserializeObject<Models.Movie>(content);
         }
     }
 }
