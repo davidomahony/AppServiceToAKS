@@ -4,7 +4,7 @@ namespace Movie.API.Services
 {
     public interface IWatchedMoviesService
     {
-        IEnumerable<MovieRated> ListWatchedMovies();
+        IEnumerable<RatedMovieInfo> ListWatchedMovies();
 
         void AddWatchedMovies(MovieRated watchedMovie);
     }

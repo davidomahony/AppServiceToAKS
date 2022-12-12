@@ -30,7 +30,7 @@ namespace Movie.API.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult AddMovie(Movie.API.Models.Movie movieToAdd)
+        public IActionResult AddMovie(Movie.API.Models.MovieBase movieToAdd)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace Movie.API.Controllers
         }
 
         [HttpDelete("Remove")]
-        public IActionResult RemoveMovie(Movie.API.Models.Movie movieToRemove)
+        public IActionResult RemoveMovie(Movie.API.Models.MovieBase movieToRemove)
         {
             try
             {

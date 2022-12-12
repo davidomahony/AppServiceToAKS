@@ -1,11 +1,13 @@
-﻿namespace Movie.API.Services
+﻿using Movie.API.Models;
+
+namespace Movie.API.Services
 {
     public interface IWatchListServices
     {
-        IEnumerable<Movie.API.Models.Movie> ListWatchedMovies();
+        IEnumerable<MovieInfo> ListWatchedMovies();
 
-        void AddWatchedMovie(Movie.API.Models.Movie movie);
+        void AddWatchedMovie(Movie.API.Models.MovieBase movie);
 
-        void RemoveWatchedMovie(Movie.API.Models.Movie movie);
+        void RemoveWatchedMovie(Movie.API.Models.MovieBase movie);
     }
 }

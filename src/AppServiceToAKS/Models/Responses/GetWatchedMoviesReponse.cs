@@ -2,6 +2,6 @@
 {
     public class GetWatchedMoviesReponse
     {
-        public IEnumerable<MovieRated> WatchedMovies { get; set; }
+        public IEnumerable<RatedMovieInfo> WatchedMovies { get; set; }
     }
 }

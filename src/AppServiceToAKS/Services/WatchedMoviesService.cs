@@ -6,32 +6,29 @@ namespace Movie.API.Services
 {
     public class WatchedMoviesService : IWatchedMoviesService
     {
-        private readonly IList<MovieRated> _ratedMovies;
+        private readonly IList<RatedMovieInfo> _ratedMovies;
         private readonly IOmdbClient _movieClient;
 
         public WatchedMoviesService(IOmdbClient movieClient)
         {
-            _ratedMovies = new List<MovieRated>();
+            _ratedMovies = new List<RatedMovieInfo>();
+            _movieClient = movieClient;
         }
 
         public void AddWatchedMovies(MovieRated watchedMovie)
         {
-            this.ValidateMovie(watchedMovie);
-            throw new NotImplementedException();
+            var info = this.GetMovieInfo(watchedMovie);
+            _ratedMovies.Add(new RatedMovieInfo(info, watchedMovie));
         }
 
-        public IEnumerable<MovieRated> ListWatchedMovies()
+        public IEnumerable<RatedMovieInfo> ListWatchedMovies()
         {
             return _ratedMovies;
         }
 
-        private void ValidateMovie(MovieRated movie)
+        private MovieInfo GetMovieInfo(MovieRated movie)
         {
-            var movieInfo = _movieClient.GetMovieInfo(movie.Title);
-            if (movieInfo is null)
-            {
-                throw new MovieNotFoundException();
-            }
+            return _movieClient.GetMovieInfo(movie.Title).Result;
         }
     }
 }

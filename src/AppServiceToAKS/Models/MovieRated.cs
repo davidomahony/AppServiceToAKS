@@ -1,6 +1,8 @@
-﻿namespace Movie.API.Models
+﻿using System.Runtime.Serialization;
+
+namespace Movie.API.Models
 {
-    public class MovieRated : Movie
+    public class MovieRated : MovieBase, IRatedMovie
     {
         public float MyRating { get; set; }
     }

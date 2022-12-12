@@ -13,18 +13,18 @@ namespace Movie.API.Clients
             _httpClient = httpClient;
         }
 
-        async Task<Models.Movie> IOmdbClient.GetMovieInfo(string movieName)
+        async Task<MovieInfo> IOmdbClient.GetMovieInfo(string movieName)
         {
-            var response = await _httpClient.GetAsync($"?t={movieName}&apikey=xxxx");
+            var response = await _httpClient.GetAsync($"?t={movieName}&apikey=NotToday);
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 throw new MovieNotFoundException();
             }
 
             response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<Models.Movie>(content);
+            var content = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<MovieInfo>(content);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class GetWatchListResponse
     {
-        public IEnumerable<Movie> Movies { get; set; }
+        public IEnumerable<MovieInfo> Movies { get; set; }
     }
 }

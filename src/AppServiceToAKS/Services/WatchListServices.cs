@@ -1,32 +1,33 @@
 ﻿using Movie.API.Clients;
 using Movie.API.Exceptions;
+using Movie.API.Models;
 
 namespace Movie.API.Services
 {
     public class WatchListServices : IWatchListServices
     {
-        private readonly IList<Movie.API.Models.Movie> _movies;
+        private readonly IList<MovieInfo> _movies;
         private readonly IOmdbClient _movieClient;
 
         public WatchListServices(IOmdbClient movieClient)
         {
-            _movies = new List<Movie.API.Models.Movie>();
+            _movies = new List<MovieInfo>();
             _movieClient = movieClient;
         }
 
-        public void AddWatchedMovie(Models.Movie movie)
+        public void AddWatchedMovie(Models.MovieBase movie)
         {
-            this.ValidateMovie(movie);
+            var movieInfo = this.GetMovieInfo(movie);
 
-            _movies.Add(movie);
+            _movies.Add(movieInfo);
         }
 
-        public IEnumerable<Models.Movie> ListWatchedMovies()
+        public IEnumerable<MovieInfo> ListWatchedMovies()
         {
             return _movies;
         }
 
-        public void RemoveWatchedMovie(Models.Movie movie)
+        public void RemoveWatchedMovie(Models.MovieBase movie)
         {
             var movieToRemove = _movies.First(x => 
                 x.Title.Equals(movie.Title));
@@ -38,13 +39,9 @@ namespace Movie.API.Services
             _movies.Remove(movieToRemove);
         }
 
-        private void ValidateMovie(Movie.API.Models.Movie movie)
+        private MovieInfo GetMovieInfo(MovieBase movie)
         {
-            var movieInfo = _movieClient.GetMovieInfo(movie.Title).Result;
-            if (movieInfo is null)
-            {
-                throw new MovieNotFoundException();
-            }
+            return _movieClient.GetMovieInfo(movie.Title).Result;
         }
     }
 }
