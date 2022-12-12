@@ -133,3 +133,6 @@ $RECYCLE.BIN/
 
 _NCrunch*
 
+# settings
+appsettings.Development.jso
+/src/AppServiceToAKS/appsettings.Development.json
