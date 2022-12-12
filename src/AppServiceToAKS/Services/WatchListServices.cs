@@ -27,7 +27,7 @@ namespace Movie.API.Services
         public void RemoveWatchedMovie(MovieBase movie)
         {
             var movieToRemove = _movies.FirstOrDefault(x => 
-                x.Title.Equals(movie.Title));
+                x.Title.Equals(movie.Title, StringComparison.OrdinalIgnoreCase));
             if (movieToRemove is null)
             {
                 throw new MovieNotFoundException();
