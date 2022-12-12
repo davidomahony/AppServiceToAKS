@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movie.API.Exceptions;
-using Movie.API.Models;
+using Movie.API.Models.Movies;
 using Movie.API.Models.Responses;
 using Movie.API.Services;
 

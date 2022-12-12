@@ -1,6 +1,5 @@
 ﻿using Movie.API.Clients;
-using Movie.API.Exceptions;
-using Movie.API.Models;
+using Movie.API.Models.Movies;
 
 namespace Movie.API.Services
 {
@@ -15,20 +14,14 @@ namespace Movie.API.Services
             _movieClient = movieClient;
         }
 
-        public void AddWatchedMovies(MovieRated watchedMovie)
+        public async void AddWatchedMovies(MovieRated watchedMovie)
         {
-            var info = this.GetMovieInfo(watchedMovie);
+            var info = await this.GetMovieInfo(watchedMovie);
             _ratedMovies.Add(new RatedMovieInfo(info, watchedMovie));
         }
 
-        public IEnumerable<RatedMovieInfo> ListWatchedMovies()
-        {
-            return _ratedMovies;
-        }
+        public IEnumerable<RatedMovieInfo> ListWatchedMovies() => _ratedMovies;
 
-        private MovieInfo GetMovieInfo(MovieRated movie)
-        {
-            return _movieClient.GetMovieInfo(movie.Title).Result;
-        }
+        private Task<MovieInfo> GetMovieInfo(MovieRated movie) => _movieClient.GetMovieInfo(movie.Title);
     }
 }

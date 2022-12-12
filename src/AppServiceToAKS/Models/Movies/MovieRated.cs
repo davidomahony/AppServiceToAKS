@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace Movie.API.Models
+namespace Movie.API.Models.Movies
 {
     public class MovieRated : MovieBase, IRatedMovie
     {

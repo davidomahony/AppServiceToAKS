@@ -1,4 +1,6 @@
-﻿namespace Movie.API.Models.Requests
+﻿using Movie.API.Models.Movies;
+
+namespace Movie.API.Models.Requests
 {
     public class AddWatchedMovieRequest
     {

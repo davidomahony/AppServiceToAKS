@@ -1,4 +1,4 @@
-﻿using Movie.API.Models;
+﻿using Movie.API.Models.Movies;
 
 namespace Movie.API.Services
 {
@@ -6,8 +6,8 @@ namespace Movie.API.Services
     {
         IEnumerable<MovieInfo> ListWatchedMovies();
 
-        void AddWatchedMovie(Movie.API.Models.MovieBase movie);
+        void AddWatchedMovie(MovieBase movie);
 
-        void RemoveWatchedMovie(Movie.API.Models.MovieBase movie);
+        void RemoveWatchedMovie(MovieBase movie);
     }
 }

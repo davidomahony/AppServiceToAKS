@@ -1,5 +1,5 @@
 ﻿using Movie.API.Exceptions;
-using Movie.API.Models;
+using Movie.API.Models.Movies;
 using Newtonsoft.Json;
 
 namespace Movie.API.Clients
@@ -10,12 +10,13 @@ namespace Movie.API.Clients
 
         public OmdbClient(HttpClient httpClient)
         {
+            // need to get config from app settings
             _httpClient = httpClient;
         }
 
         async Task<MovieInfo> IOmdbClient.GetMovieInfo(string movieName)
         {
-            var response = await _httpClient.GetAsync($"?t={movieName}&apikey=NotToday);
+            var response = await _httpClient.GetAsync($"?t={movieName}&apikey=xxx");
             if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 throw new MovieNotFoundException();

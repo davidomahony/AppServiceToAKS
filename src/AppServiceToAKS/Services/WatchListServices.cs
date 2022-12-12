@@ -1,6 +1,6 @@
 ﻿using Movie.API.Clients;
 using Movie.API.Exceptions;
-using Movie.API.Models;
+using Movie.API.Models.Movies;
 
 namespace Movie.API.Services
 {
@@ -15,21 +15,18 @@ namespace Movie.API.Services
             _movieClient = movieClient;
         }
 
-        public void AddWatchedMovie(Models.MovieBase movie)
+        public async void AddWatchedMovie(MovieBase movie)
         {
-            var movieInfo = this.GetMovieInfo(movie);
+            var movieInfo = await this.GetMovieInfo(movie);
 
             _movies.Add(movieInfo);
         }
 
-        public IEnumerable<MovieInfo> ListWatchedMovies()
-        {
-            return _movies;
-        }
+        public IEnumerable<MovieInfo> ListWatchedMovies() => _movies;
 
-        public void RemoveWatchedMovie(Models.MovieBase movie)
+        public void RemoveWatchedMovie(MovieBase movie)
         {
-            var movieToRemove = _movies.First(x => 
+            var movieToRemove = _movies.FirstOrDefault(x => 
                 x.Title.Equals(movie.Title));
             if (movieToRemove is null)
             {
@@ -39,9 +36,6 @@ namespace Movie.API.Services
             _movies.Remove(movieToRemove);
         }
 
-        private MovieInfo GetMovieInfo(MovieBase movie)
-        {
-            return _movieClient.GetMovieInfo(movie.Title).Result;
-        }
+        private Task<MovieInfo> GetMovieInfo(MovieBase movie) => _movieClient.GetMovieInfo(movie.Title);
     }
 }

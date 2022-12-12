@@ -1,4 +1,4 @@
-﻿using Movie.API.Models;
+﻿using Movie.API.Models.Movies;
 
 namespace Movie.API.Clients
 {

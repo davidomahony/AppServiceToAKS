@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movie.API.Exceptions;
+using Movie.API.Models.Movies;
 using Movie.API.Models.Responses;
 using Movie.API.Services;
 
@@ -30,7 +31,7 @@ namespace Movie.API.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult AddMovie(Movie.API.Models.MovieBase movieToAdd)
+        public IActionResult AddMovie(MovieBase movieToAdd)
         {
             try
             {
@@ -48,11 +49,11 @@ namespace Movie.API.Controllers
         }
 
         [HttpDelete("Remove")]
-        public IActionResult RemoveMovie(Movie.API.Models.MovieBase movieToRemove)
+        public IActionResult RemoveMovie(MovieBase movieToRemove)
         {
             try
             {
-                _watchListServicecs.AddWatchedMovie(movieToRemove);
+                _watchListServicecs.RemoveWatchedMovie(movieToRemove);
                 return Accepted();
             }
             catch (MovieNotFoundException)
