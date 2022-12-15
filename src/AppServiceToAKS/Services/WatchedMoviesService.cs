@@ -11,7 +11,7 @@ namespace Movie.API.Services
         public WatchedMoviesService(IOmdbClient movieClient)
         {
             _ratedMovies = new List<RatedMovieInfo>();
-            _movieClient = movieClient;
+            _movieClient = movieClient ?? throw new ArgumentException(nameof(movieClient));
         }
 
         public async void AddWatchedMovies(MovieRated watchedMovie)

@@ -21,6 +21,20 @@ namespace Movie.API.UnitTests.Services
         }
 
         [Test]
+        public void Constructor_Validation_Valid()
+        {
+            var obj = new WatchListServices(_movieClient.Object);
+            Assert.NotNull(obj);
+            Assert.That(obj.ListWatchedMovies().Count() == 0);
+        }
+
+        [Test]
+        public void Constructor_Validation_NullMovieService()
+        {
+            Assert.Throws<ArgumentException>(() => new WatchListServices(null));
+        }
+
+        [Test]
         public void AddWatchedMovie_MovieAddedToList_MovieIsAddedToList()
         {
             // Arrange

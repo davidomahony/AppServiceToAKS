@@ -22,6 +22,19 @@ namespace Movie.API.UnitTests.Controllers
         }
 
         [Test]
+        public void Constructor_Validation_Valid()
+        {
+            var obj = new WatchListController(_mockWatchListServices.Object);
+            Assert.NotNull(obj);
+        }
+
+        [Test]
+        public void Constructor_Validation_NullMovieService()
+        {
+            Assert.Throws<ArgumentException>(() => new WatchListController(null));
+        }
+
+        [Test]
         public void GetWatchList_ReturnsOk_WithListOfMovies()
         {
             // Arrange

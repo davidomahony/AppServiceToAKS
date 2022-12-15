@@ -14,7 +14,7 @@ namespace Movie.API.Controllers
 
         public WatchListController(IWatchListServices watchListServicecs)
         {
-            _watchListServicecs = watchListServicecs;
+            _watchListServicecs = watchListServicecs ?? throw new ArgumentException(nameof(watchListServicecs));
         }
 
         [HttpGet]

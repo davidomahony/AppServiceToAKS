@@ -14,7 +14,7 @@ namespace Movie.API.Controllers
 
         public WatchedController(IWatchedMoviesService watchedMoviesService)
         {
-            _watchedMoviesService = watchedMoviesService;
+            _watchedMoviesService = watchedMoviesService ?? throw new ArgumentException(nameof(watchedMoviesService));
         }
 
         [HttpGet()]

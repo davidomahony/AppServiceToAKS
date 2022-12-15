@@ -16,11 +16,25 @@ namespace Movie.API.UnitTests.Controllers
     {
         private Mock<IWatchedMoviesService> _watchedMoviesService;
         private WatchedController _watchedController;
+
         [SetUp]
         public void Setup()
         {
             _watchedMoviesService = new Mock<IWatchedMoviesService>();
             _watchedController = new WatchedController(_watchedMoviesService.Object);
+        }
+
+        [Test]
+        public void Constructor_Validation_Valid()
+        {
+            var obj = new WatchedController(_watchedMoviesService.Object);
+            Assert.NotNull(obj);
+        }
+
+        [Test]
+        public void Constructor_Validation_NullWatchedMovieService()
+        {
+            Assert.Throws<ArgumentException>(() => new WatchedController(null));
         }
 
         [Test]

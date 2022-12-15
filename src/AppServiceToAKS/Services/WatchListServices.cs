@@ -12,7 +12,7 @@ namespace Movie.API.Services
         public WatchListServices(IOmdbClient movieClient)
         {
             _movies = new List<MovieInfo>();
-            _movieClient = movieClient;
+            _movieClient = movieClient ?? throw new ArgumentException(nameof(movieClient));
         }
 
         public async void AddWatchedMovie(MovieBase movie)
