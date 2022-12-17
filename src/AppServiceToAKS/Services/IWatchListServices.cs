@@ -6,7 +6,7 @@ namespace Movie.API.Services
     {
         IEnumerable<MovieInfo> ListWatchedMovies();
 
-        void AddWatchedMovie(MovieBase movie);
+        Task AddWatchedMovie(MovieBase movie);
 
         void RemoveWatchedMovie(MovieBase movie);
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movie.API.Exceptions;
 using Movie.API.Models.Movies;
+using Movie.API.Models.Requests;
 using Movie.API.Models.Responses;
 using Movie.API.Services;
 
@@ -36,11 +37,11 @@ namespace Movie.API.Controllers
         }
 
         [HttpPost("Add")]
-        public IActionResult AddWatchedMovies([FromBody] MovieRated ratedMovie)
+        public async Task<IActionResult> AddWatchedMovies([FromBody] AddWatchedMovieRequest ratedMovieRequest)
         {
             try
             {
-                _watchedMoviesService.AddWatchedMovies(ratedMovie);
+                await _watchedMoviesService.AddWatchedMovies(ratedMovieRequest.WatchedMovie);
                 return Accepted();
             }
             catch (MovieNotFoundException)

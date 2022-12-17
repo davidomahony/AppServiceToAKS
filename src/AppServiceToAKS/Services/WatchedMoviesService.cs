@@ -14,7 +14,7 @@ namespace Movie.API.Services
             _movieClient = movieClient ?? throw new ArgumentException(nameof(movieClient));
         }
 
-        public async void AddWatchedMovies(MovieRated watchedMovie)
+        public async Task AddWatchedMovies(MovieRated watchedMovie)
         {
             var info = await this.GetMovieInfo(watchedMovie);
             _ratedMovies.Add(new RatedMovieInfo(info, watchedMovie));

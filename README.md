@@ -1,7 +1,7 @@
 # AppServiceToAKS
 Sample project to show the journey from an App service to various different containerized environments.
 
-## Role of the Applicaiton
+## Role of the Application
 Right now this is a very basic application which adds and removes movies to a list of watched and movies to watch. The aim of this application is to show what changes are needed to deploy the following application with several different environemnts.
 
 ## Environments

@@ -6,6 +6,6 @@ namespace Movie.API.Services
     {
         IEnumerable<RatedMovieInfo> ListWatchedMovies();
 
-        void AddWatchedMovies(MovieRated watchedMovie);
+        Task AddWatchedMovies(MovieRated watchedMovie);
     }
 }

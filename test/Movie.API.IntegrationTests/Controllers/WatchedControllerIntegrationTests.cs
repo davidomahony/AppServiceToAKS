@@ -2,21 +2,23 @@
 using Movie.API.Models.Movies;
 using Movie.API.Models.Requests;
 using Movie.API.Models.Responses;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace Movie.API.IntegrationTests.Controllers
 {
     [TestFixture]
     public class WatchedControllerIntegrationTests
     {
-        private WebApplicationFactory<Startup> _webApplicationFactory;
+        private WebApplicationFactory<Program> _webApplicationFactory;
         private HttpClient _client;
 
         [SetUp]
         public void Setup()
         {
-            _webApplicationFactory = new WebApplicationFactory<Startup>();
+            _webApplicationFactory = new WebApplicationFactory<Program>();
             _client = _webApplicationFactory.CreateClient();
         }
 
@@ -44,15 +46,12 @@ namespace Movie.API.IntegrationTests.Controllers
                 WatchedMovie = new MovieRated()
                 {
                     MyRating = 4,
-                    Title = "zzzzzzzzzz"
+                    Title = "string"
                 }
             };
 
             // Act
             var addResponse = await _client.PostAsJsonAsync("/Watched/Add", request);
-
-            var con = await addResponse.Content.ReadAsStringAsync();
-
             addResponse.EnsureSuccessStatusCode();
 
             var getResponse = await _client.GetAsync("/Watched");
@@ -62,7 +61,7 @@ namespace Movie.API.IntegrationTests.Controllers
             Assert.NotNull(getResponseBody);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, addResponse.StatusCode);
+            Assert.AreEqual(HttpStatusCode.Accepted, addResponse.StatusCode);
             Assert.AreEqual(true, 
                 getResponseBody.WatchedMovies.Any(x => x.Title.Equals("string", StringComparison.OrdinalIgnoreCase) 
                 && x.MyRating == 4));
