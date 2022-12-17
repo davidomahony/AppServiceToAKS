@@ -74,14 +74,14 @@ namespace Movie.API.UnitTests.Controllers
         }
 
         [Test]
-        public void AddWatchedMovies_ReturnsAcceptedResult()
+        public async Task AddWatchedMovies_ReturnsAcceptedResult()
         {
             //Arrange
             var ratedMovie = new MovieRated { MyRating = 9 };
             _watchedMoviesService.Setup(x => x.AddWatchedMovies(ratedMovie)).Verifiable();
 
             //Act
-            var result = _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
+            var result = await _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
 
             //Assert
             _watchedMoviesService.Verify();
@@ -91,14 +91,14 @@ namespace Movie.API.UnitTests.Controllers
         }
 
         [Test]
-        public void AddWatchedMovies_ReturnsNotFoundResult()
+        public async Task AddWatchedMovies_ReturnsNotFoundResult()
         {
             //Arrange
             var ratedMovie = new MovieRated { MyRating = 9};
             _watchedMoviesService.Setup(x => x.AddWatchedMovies(ratedMovie)).Throws<MovieNotFoundException>();
 
             //Act
-            var result = _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
+            var result = await _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
 
             //Assert
             Assert.IsNotNull(result);
