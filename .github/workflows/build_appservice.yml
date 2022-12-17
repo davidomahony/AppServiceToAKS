@@ -1,6 +1,6 @@
 name: Post commit build
 
-on: [Push]
+on: workflow_dispatch
 
 jobs:
   build:
