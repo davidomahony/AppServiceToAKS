@@ -36,14 +36,14 @@ namespace Movie.API.UnitTests.Services
         }
 
         [Test]
-        public void AddWatchedMovies_WhenGivenMovieRated_ShouldAddToList()
+        public async Task AddWatchedMovies_WhenGivenMovieRated_ShouldAddToList()
         {
             // Arrange
             var watchedMovie = new MovieRated { Title = testMovieTitle };
             _movieClient.Setup(x => x.GetMovieInfo(testMovieTitle)).ReturnsAsync(new MovieInfo() { Title = testMovieTitle });
 
             // Act
-            _watchedMoviesService.AddWatchedMovies(watchedMovie);
+            await _watchedMoviesService.AddWatchedMovies(watchedMovie);
 
             // Assert
             Assert.AreEqual(1, _watchedMoviesService.ListWatchedMovies().Count());

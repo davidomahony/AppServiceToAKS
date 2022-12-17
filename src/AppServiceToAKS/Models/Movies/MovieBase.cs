@@ -5,6 +5,7 @@ namespace Movie.API.Models.Movies
 {
     public class MovieBase
     {
+        [Required]
         public string Title { get; set; }
     }
 }

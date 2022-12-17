@@ -35,7 +35,7 @@ namespace Movie.API.UnitTests.Services
         }
 
         [Test]
-        public void AddWatchedMovie_MovieAddedToList_MovieIsAddedToList()
+        public async Task AddWatchedMovie_MovieAddedToList_MovieIsAddedToList()
         {
             // Arrange
             var movie = new MovieBase() { Title = "Test Movie" };
@@ -43,7 +43,7 @@ namespace Movie.API.UnitTests.Services
             _movieClient.Setup(x => x.GetMovieInfo(It.IsAny<string>())).ReturnsAsync(expected);
 
             // Act
-            _watchListServices.AddWatchedMovie(movie);
+            await _watchListServices.AddWatchedMovie(movie);
 
             // Assert
             var result = _watchListServices.ListWatchedMovies();
@@ -51,14 +51,14 @@ namespace Movie.API.UnitTests.Services
         }
 
         [Test]
-        public void RemoveWatchedMovie_MovieRemovedFromList_MovieIsRemovedFromList()
+        public async Task RemoveWatchedMovie_MovieRemovedFromList_MovieIsRemovedFromList()
         {
             // Arrange
             var movieToRemove = new MovieBase() { Title = "Test Movie" };
             var expected = new MovieInfo() { Title = "Test Movie" };
             _movieClient.Setup(x => x.GetMovieInfo(It.IsAny<string>())).ReturnsAsync(expected);
 
-            _watchListServices.AddWatchedMovie(movieToRemove);
+            await _watchListServices.AddWatchedMovie(movieToRemove);
 
             // Act
             _watchListServices.RemoveWatchedMovie(movieToRemove);

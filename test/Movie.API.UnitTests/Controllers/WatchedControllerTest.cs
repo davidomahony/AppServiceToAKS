@@ -81,7 +81,7 @@ namespace Movie.API.UnitTests.Controllers
             _watchedMoviesService.Setup(x => x.AddWatchedMovies(ratedMovie)).Verifiable();
 
             //Act
-            var result = _watchedController.AddWatchedMovies(ratedMovie);
+            var result = _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
 
             //Assert
             _watchedMoviesService.Verify();
@@ -98,7 +98,7 @@ namespace Movie.API.UnitTests.Controllers
             _watchedMoviesService.Setup(x => x.AddWatchedMovies(ratedMovie)).Throws<MovieNotFoundException>();
 
             //Act
-            var result = _watchedController.AddWatchedMovies(ratedMovie);
+            var result = _watchedController.AddWatchedMovies(new Models.Requests.AddWatchedMovieRequest() { WatchedMovie = ratedMovie});
 
             //Assert
             Assert.IsNotNull(result);
