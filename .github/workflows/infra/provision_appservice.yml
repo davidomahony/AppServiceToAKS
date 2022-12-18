@@ -1,3 +1,0 @@
-name: Provision App Service
-
-on: workflow_dispatch
