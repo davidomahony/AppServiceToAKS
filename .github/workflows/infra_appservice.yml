@@ -9,7 +9,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ./terraform/Appservice
+        working-directory: infra\AppService
 
     steps:
       - name: "Checkout"
