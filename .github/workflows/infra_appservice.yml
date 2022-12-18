@@ -9,7 +9,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: infra\AppService
+        working-directory: infra/AppService
 
     steps:
       - name: "Checkout"
