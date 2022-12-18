@@ -5,7 +5,7 @@ data "azurerm_resources" "rg-movie-demo" {
 
 resource "azurerm_app_service_plan" "asp-movie-demo" {
   name                = "asp-movie-demo"
-  location            = data.azurerm_resources.rg-movie-demo.location
+  location            = "northeurope"
   resource_group_name = data.azurerm_resources.rg-movie-demo.name
 
   sku {
@@ -16,7 +16,7 @@ resource "azurerm_app_service_plan" "asp-movie-demo" {
 
 resource "azurerm_app_service" "as-movie-demo" {
   name                = "as-movie-demo"
-  location            = data.azurerm_resources.rg-movie-demo.location
+  location            = "northeurope"
   resource_group_name = data.azurerm_resources.rg-movie-demo.name
   app_service_plan_id = azurerm_app_service_plan.asp-movie-demo.id
 
