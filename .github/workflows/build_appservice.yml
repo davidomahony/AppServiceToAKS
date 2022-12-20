@@ -41,9 +41,9 @@ jobs:
       with:
         name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
 
-    # - name: Deploy Application
-    #   uses: azure/webapps-deploy@v2
-    #   with: 
-    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} ## I need to generate this although I do like the idea of using an SP
-    #     package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+    - name: Deploy Application
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} 
+        package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'

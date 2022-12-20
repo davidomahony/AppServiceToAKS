@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   terraform_plan:
-    name: "Terraform Plan"
+    name: Terraform Plan
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -12,25 +12,25 @@ jobs:
         working-directory: infra/AppService
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@master
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: "Terraform Format"
+      - name: Terraform Format
         id: fmt
         run: terraform fmt
 
-      - name: "Terraform Init"
+      - name: Terraform Init
         id: init
         run: terraform init
 
-      - name: "Terraform Validate"
+      - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
 
-      - name: "Terraform Plan"
+      - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
         env:
@@ -40,7 +40,8 @@ jobs:
           TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
 
   terraform_apply:
-    name: "Terraform Apply"
+    name: Terraform Apply
+    needs: terraform_plan
     runs-on: ubuntu-latest
     environment:
       name: dev
@@ -50,25 +51,25 @@ jobs:
         working-directory: infra/AppService
 
     steps:
-      - name: "Checkout"
+      - name: Checkout
         uses: actions/checkout@master
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: "Terraform Format"
+      - name: Terraform Format
         id: fmt
         run: terraform fmt
 
-      - name: "Terraform Init"
+      - name: Terraform Init
         id: init
         run: terraform init
 
-      - name: "Terraform Validate"
+      - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
 
-      - name: "Terraform Plan"
+      - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
         env:
