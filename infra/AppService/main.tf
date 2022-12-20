@@ -16,6 +16,7 @@ resource "azurerm_linux_web_app" "example" {
   resource_group_name = "rg-movie-demo"
   location            = azurerm_service_plan.asp-movie-demo.location
   service_plan_id     = azurerm_service_plan.asp-movie-demo.id
-
-  site_config {}
+  site_config {
+    always_on = false
+  }
 }
