@@ -23,12 +23,12 @@ jobs:
     - name: Unit Tests
       run: dotnet test --no-build --verbosity normal --filter 'FullyQualifiedName!~IntegrationTests'
     - name: Publish
-      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish/${{ env.AZURE_WEBAPP_NAME }}'
     - name: Upload Artefacts
       uses: actions/upload-artifact@v2
       with:
         name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
-        path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish'
 
   deploy:
     needs: build
