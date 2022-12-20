@@ -1,6 +1,10 @@
-name: Post commit build
+name: Deploy App Service 
 
 on: workflow_dispatch
+
+env:
+  AZURE_WEBAPP_NAME: movie-demo
+  AZURE_WEBAPP_PACKAGE_PATH: '.' 
 
 jobs:
   build:
@@ -17,7 +21,31 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Test
+    - name: Building App
+      run: dotnet build --no-restore --configuration Release
+    - name: Unit Tests
       run: dotnet test --no-build --verbosity normal --filter 'FullyQualifiedName!~IntegrationTests'
+    - name: Publish
+      run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+    - name: Upload Artefacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+        path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Fetch Atrefacts
+      uses: actions/download-artifact@v2
+      with:
+        name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+
+    # - name: Deploy Application
+    #   uses: azure/webapps-deploy@v2
+    #   with: 
+    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
+    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} ## I need to generate this although I do like the idea of using an SP
+    #     package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{ env.AZURE_WEBAPP_NAME }}'
