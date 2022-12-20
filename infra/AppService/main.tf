@@ -7,25 +7,14 @@ resource "azurerm_app_service_plan" "asp-movie-demo" {
   name                = "asp-movie-demo"
   location            = "northeurope"
   resource_group_name = "rg-movie-demo"
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
+  os_type             = "Linux"
+  sku_name            = "B1"
 }
 
-resource "azurerm_app_service" "as-movie-demo" {
+resource "azurerm_linux_web_app" "example" {
   name                = "as-movie-demo"
   location            = "northeurope"
   resource_group_name = "rg-movie-demo"
   app_service_plan_id = azurerm_app_service_plan.asp-movie-demo.id
-
-  site_config {
-    dotnet_framework_version = "v4.0"
-    scm_type                 = "LocalGit"
-  }
-
-  app_settings = {
-    "SOME_KEY" = "some-value"
-  }
+  site_config {}
 }
