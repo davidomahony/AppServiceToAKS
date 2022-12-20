@@ -9,9 +9,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        dotnet-version: ['6.0.x' ]
 
     steps:
     - uses: actions/checkout@v3
@@ -22,7 +19,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
     - name: Building App
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build --no-restore
     - name: Unit Tests
       run: dotnet test --no-build --verbosity normal --filter 'FullyQualifiedName!~IntegrationTests'
     - name: Publish
@@ -38,7 +35,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Fetch Atrefacts
+    - name: Fetch Artifacts
       uses: actions/download-artifact@v2
       with:
         name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
