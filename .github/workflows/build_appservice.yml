@@ -30,10 +30,10 @@ jobs:
     # - name: Publish
     #   run: dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/publish/${{ env.AZURE_WEBAPP_NAME }}'
     - name: Build with dotnet
-      run: dotnet build ./AppServiceToAKS/Movie.API.sln --configuration Release
+      run: dotnet build Movie.API.sln --configuration Release
 
     - name: dotnet publish
-      run: dotnet publish ./AppServiceToAKS/src/AppServiceToAKS/Movie.API.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      run: dotnet publish ./src/AppServiceToAKS/Movie.API.csproj -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
     - name: Upload Artefacts
       uses: actions/upload-artifact@v3
