@@ -18,6 +18,11 @@ jobs:
         dotnet-version: "6.0"
     - name: Restore dependencies
       run: dotnet restore
+
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: './'
+
     #- name: Building App
     #   run: dotnet build --no-restore
     # - name: Unit Tests
