@@ -3,7 +3,7 @@ name: Provision App Service
 on: workflow_dispatch
 
 jobs:
-  terraform:
+  terraform_plan:
     name: "Terraform Plan"
     runs-on: ubuntu-latest
     defaults:
@@ -39,7 +39,7 @@ jobs:
           TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
           TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
 
-  terraform:
+  terraform_apply:
     name: "Terraform Apply"
     runs-on: ubuntu-latest
     environment:
