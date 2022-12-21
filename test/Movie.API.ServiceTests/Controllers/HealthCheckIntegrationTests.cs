@@ -1,18 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Movie.API.Tests.Configuration;
 using System.Net;
 
-namespace Movie.API.IntegrationTests.Controllers
+namespace Movie.API.Tests.Controllers
 {
     [TestFixture]
     public class HealthCheckIntegrationTests
     {
-        private WebApplicationFactory<Startup> _webApplicationFactory;
+        private TestWebApplicationFactory _webApplicationFactory;
         private HttpClient _client;
 
         [SetUp]
         public void Setup()
         {
-            _webApplicationFactory = new WebApplicationFactory<Startup>();
+            _webApplicationFactory = new TestWebApplicationFactory();
             _client = _webApplicationFactory.CreateClient();
         }
 

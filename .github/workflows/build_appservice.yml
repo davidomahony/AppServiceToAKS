@@ -7,13 +7,6 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: './src/AppServiceToAKS/' 
   DOTNET_VERSION: '6.0'    
 
-# Build Stage
-# 1. Restore and build neccessary projects
-# 2. Run unit tests
-# 3. Create artefacts for deploy stage
-# 4. Create artefacts for test stage (Integration tests)
-# 5. Upload Areficats
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -35,22 +28,17 @@ jobs:
           dotnet publish -c Release -o './myapp' 
           popd
 
-      - name: Run Unit Tests
+      - name: Run Unit & Service Tests
         run: |
           dotnet test './test/Movie.API.UnitTests/Movie.API.UnitTests.csproj'
+          dotnet test './test/Movie.API.ServiceTests/Movie.API.ServiceTests.csproj'
 
-      - name: Run Dev Integration Tests
-        run: |
-          omdbAppKey=${{ secrets.OMDB_APP_KEY }} && dotnet test './test/Movie.API.IntegrationTests/Movie.API.IntegrationTests.csproj'
-
-      ## Maybe those self contained tests too
-
-      ## Build and areficat integration tests
+      ## Build and artifacts integration tests
 
       - name: Upload Artefacts
         uses: actions/upload-artifact@v3
         with:
-          name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+          name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}-build'
           path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}myapp'
 
   deploy:
@@ -58,13 +46,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Checkout action
+      uses: actions/checkout@v3
+
     - name: Fetch Artifacts
       uses: actions/download-artifact@v3
       with:
-        name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+        name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}-build'
 
-    - name: 'Az CLI login'
+    - name: Azure Cli Login
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
@@ -76,7 +66,7 @@ jobs:
         mask-inputs: false
         app-settings-json: '[{ "name": "omdbAppKey", "value": "${{ secrets.OMDB_APP_KEY }}", "slotSetting": false }]'
         
-    - name: 'Run Azure webapp deploy action using publish profile credentials'
+    - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
       with: 
         app-name: ${{ env.AZURE_WEBAPP_NAME }}

@@ -1,24 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿using System.Net;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Movie.API.Models.Movies;
 using Movie.API.Models.Requests;
 using Movie.API.Models.Responses;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Json;
-using System.Text;
+using Movie.API.Tests.Configuration;
 
-namespace Movie.API.IntegrationTests.Controllers
+namespace Movie.API.Tests.Controllers
 {
     [TestFixture]
     public class WatchedControllerIntegrationTests
     {
-        private WebApplicationFactory<Program> _webApplicationFactory;
+        private TestWebApplicationFactory _webApplicationFactory;
         private HttpClient _client;
 
         [SetUp]
         public void Setup()
         {
-            _webApplicationFactory = new WebApplicationFactory<Program>();
+            _webApplicationFactory = new TestWebApplicationFactory();
             _client = _webApplicationFactory.CreateClient();
         }
 
@@ -27,14 +26,14 @@ namespace Movie.API.IntegrationTests.Controllers
         {
             // Act 
             var response = await _client.GetAsync("/Watched");
-            Assert.NotNull(response);
+            Assert.That(response, Is.Not.Null);
 
             var responseBody = await response.Content.ReadFromJsonAsync<GetWatchedMoviesReponse>();
-            Assert.NotNull(responseBody);
+            Assert.That(responseBody, Is.Not.Null);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.OK, response.StatusCode);
-            Assert.AreEqual(false, responseBody.WatchedMovies.Any());
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            Assert.That(responseBody.WatchedMovies.Any(), Is.EqualTo(false));
         }
 
         [Test]
@@ -46,7 +45,7 @@ namespace Movie.API.IntegrationTests.Controllers
                 WatchedMovie = new MovieRated()
                 {
                     MyRating = 4,
-                    Title = "string"
+                    Title = "Good Movie"
                 }
             };
 
@@ -55,16 +54,15 @@ namespace Movie.API.IntegrationTests.Controllers
             addResponse.EnsureSuccessStatusCode();
 
             var getResponse = await _client.GetAsync("/Watched");
-            Assert.NotNull(getResponse);
+            Assert.That(getResponse, Is.Not.Null);
 
             var getResponseBody = await getResponse.Content.ReadFromJsonAsync<GetWatchedMoviesReponse>();
-            Assert.NotNull(getResponseBody);
+            Assert.That(getResponseBody, Is.Not.Null);
 
             // Assert
-            Assert.AreEqual(HttpStatusCode.Accepted, addResponse.StatusCode);
-            Assert.AreEqual(true, 
-                getResponseBody.WatchedMovies.Any(x => x.Title.Equals("string", StringComparison.OrdinalIgnoreCase) 
-                && x.MyRating == 4));
+            Assert.That(addResponse.StatusCode, Is.EqualTo(HttpStatusCode.Accepted));
+            Assert.That(getResponseBody.WatchedMovies.Any(x => x.Title.Equals("Good Movie", StringComparison.OrdinalIgnoreCase) 
+                && x.MyRating == 4), Is.EqualTo(true));
         }
     }
 }

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API", "src\AppService
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API.UnitTests", "test\Movie.API.UnitTests\Movie.API.UnitTests.csproj", "{089B2A2C-5FAA-45B4-A3D4-E78F33A0480C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Movie.API.IntegrationTests", "test\Movie.API.IntegrationTests\Movie.API.IntegrationTests.csproj", "{CD93C47E-77F8-43AA-9BE5-8A155C1A51CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Movie.API.ServiceTests", "test\Movie.API.ServiceTests\Movie.API.ServiceTests.csproj", "{CD93C47E-77F8-43AA-9BE5-8A155C1A51CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
