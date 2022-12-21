@@ -9,7 +9,7 @@ using Movie.API.Tests.Configuration;
 namespace Movie.API.Tests.Controllers
 {
     [TestFixture]
-    public class WatchedControllerIntegrationTests
+    public class WatchedControllerTests
     {
         private TestWebApplicationFactory _webApplicationFactory;
         private HttpClient _client;

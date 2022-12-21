@@ -5,7 +5,7 @@ using System.Net;
 namespace Movie.API.Tests.Controllers
 {
     [TestFixture]
-    public class HealthCheckIntegrationTests
+    public class HealthCheckTests
     {
         private TestWebApplicationFactory _webApplicationFactory;
         private HttpClient _client;
