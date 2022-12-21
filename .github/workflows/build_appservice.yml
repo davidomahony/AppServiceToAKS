@@ -8,22 +8,29 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: './src/AppServiceToAKS/'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '6.0'           # set this to the dot net version to use
 
+
+# Build Stage
+# 1. Restore and build neccessary projects
+# 2. Run unit tests
+# 3. Create artefacts for deploy stage
+# 4. Create artefacts for test stage (Integration tests)
+# 5. Upload Areficats
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repo
-      - uses: actions/checkout@main
+      - name: Checkout Code
+        uses: actions/checkout@main
       
-      # Setup .NET Core SDK
-      - name: Setup .NET Core
+      - name: Set up Correct Version
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }} 
       
-      # Run dotnet build and publish
-      - name: dotnet build and publish
+      - name: Restore, Build & Publish app
         run: |
           pushd ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
           dotnet restore
@@ -31,30 +38,72 @@ jobs:
           dotnet publish -c Release -o './myapp' 
           popd
 
-      # Run dotnet build and publish
-      - name: Unit Tests
+      - name: Run Unit Tests
         run: |
           dotnet test './test/Movie.API.UnitTests/Movie.API.UnitTests.csproj'
+
+      ## Maybe those self contained tests too
+
+      ## Build and areficat integration tests
 
       - name: 'Az CLI login'
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Update App Settings
-        uses: azure/appservice-settings@v1
-        with:
-          app-name: '${{ env.AZURE_WEBAPP_NAME }}'
-          mask-inputs: false
-          app-settings-json: '[{ "name": "omdbAppKey", "value": "${{ secrets.OMDB_APP_KEY }}", "slotSetting": false }]'
+      # - name: Update App Settings
+      #   uses: azure/appservice-settings@v1
+      #   with:
+      #     app-name: '${{ env.AZURE_WEBAPP_NAME }}'
+      #     mask-inputs: false
+      #     app-settings-json: '[{ "name": "omdbAppKey", "value": "${{ secrets.OMDB_APP_KEY }}", "slotSetting": false }]'
           
-      # Deploy to Azure Web apps
-      - name: 'Run Azure webapp deploy action using publish profile credentials'
-        uses: azure/webapps-deploy@v2
-        with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} # Define secret variable in repository settings as per action documentation
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}myapp'
+      # # Deploy to Azure Web apps
+      # - name: 'Run Azure webapp deploy action using publish profile credentials'
+      #   uses: azure/webapps-deploy@v2
+      #   with: 
+      #     app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+      #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} # Define secret variable in repository settings as per action documentation
+      #     package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}myapp'
+
+      - name: Upload Artefacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+          path: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}myapp'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Fetch Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: '${{ env.AZURE_WEBAPP_NAME }}-${{ github.run_id }}'
+
+    - name: Deploy Application
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} 
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+
+    - name: Update App Settings
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: '${{ env.AZURE_WEBAPP_NAME }}'
+        mask-inputs: false
+        app-settings-json: '[{ "name": "omdbAppKey", "value": "${{ secrets.OMDB_APP_KEY }}", "slotSetting": false }]'
+        
+    # Deploy to Azure Web apps
+    - name: 'Run Azure webapp deploy action using publish profile credentials'
+      uses: azure/webapps-deploy@v2
+      with: 
+        app-name: ${{ env.AZURE_WEBAPP_NAME }} # Replace with your app name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE_MOVIE_DEMO  }} # Define secret variable in repository settings as per action documentation
+        package: './'
 
 # env:
 #   AZURE_WEBAPP_NAME: as-movie-demo
