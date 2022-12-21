@@ -21,13 +21,6 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }} 
-
-      - name: 'Az CLI login'
-        uses: azure/login@v1
-        with:
-          client-id: ${{ secrets.TF_VAR_CLIENT_ID }}
-          tenant-id:  ${{ secrets.TF_VAR_TENANTID }}
-          subscription-id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
       
       # Run dotnet build and publish
       - name: dotnet build and publish
@@ -37,6 +30,11 @@ jobs:
           dotnet build --configuration Release
           dotnet publish -c Release -o './myapp' 
           popd
+
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Update App Settings
         uses: azure/appservice-settings@v1
