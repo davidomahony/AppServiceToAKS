@@ -18,9 +18,9 @@ resource "azurerm_linux_web_app" "example" {
   service_plan_id     = azurerm_service_plan.asp-movie-demo.id
   site_config {
     always_on         = false
-  }
-  application_stack {
-    current_stack = "dotnet"
-    dotnet_version = "v6.0"
+    application_stack {
+      current_stack = "dotnet"
+      dotnet_version = "v6.0"
+    }
   }
 }
