@@ -30,6 +30,13 @@ jobs:
           dotnet build --configuration Release
           dotnet publish -c Release -o './myapp' 
           popd
+
+      - name: Update App Settings
+        uses: azure/appservice-settings@v1
+        with:
+          app-name: '${{ env.AZURE_WEBAPP_NAME }}'
+          mask-inputs: false
+          app-settings-json: '[{ "name": "omdbAppKey", "value": "${{ secrets.OMDB_APP_KEY }}", "slotSetting": false }]'
           
       # Deploy to Azure Web apps
       - name: 'Run Azure webapp deploy action using publish profile credentials'
