@@ -28,10 +28,9 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
     cpu    = "0.5"
     memory = "1.5"
     // May need to set env value in here
-    environment_variables {
-      name = "omdbAppKey"
-      value = var.omdbAppKey
-    }
+    environment_variables  = [
+      {"name":"omdbAppKey", "value": var.omdbAppKey},
+    ]
 
     ports {
       port     = 443
