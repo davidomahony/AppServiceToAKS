@@ -10,6 +10,8 @@ public class Program
         var startup = new Startup(builder.Configuration);
         startup.ConfigureServices(builder.Services);
 
+        builder.Configuration.AddEnvironmentVariables();
+
         var app = builder.Build();
         startup.Configure(app, builder.Environment);
     }
