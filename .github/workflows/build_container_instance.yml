@@ -35,3 +35,5 @@ jobs:
           registry-password: ${{ secrets.REGISTRY_PASSWORD }}
           name: movie-demo-container-instance
           location: 'eastus'
+          cpu: .5
+          memory: 1.5
