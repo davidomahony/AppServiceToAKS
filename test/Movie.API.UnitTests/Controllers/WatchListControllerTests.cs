@@ -45,9 +45,9 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.GetWatchList() as OkObjectResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(200, result.StatusCode);
-            Assert.AreEqual(movies, (result.Value as GetWatchListResponse).Movies);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(200));
+            Assert.That((result.Value as GetWatchListResponse).Movies, Is.EqualTo(movies));
         }
 
         [Test]
@@ -60,8 +60,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.GetWatchList() as StatusCodeResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(500, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(500));
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.AddMovie(movieToAdd) as AcceptedResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(202, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(202));
         }
 
         [Test]
@@ -89,8 +89,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.AddMovie(movieToAdd) as NotFoundObjectResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(404, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(404));
         }
 
         [Test]
@@ -102,10 +102,10 @@ namespace Movie.API.UnitTests.Controllers
 
             // Act
             var result = _watchListController.AddMovie(movieToAdd) as StatusCodeResult;
-
+            
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(500, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(500));
         }
 
         [Test]
@@ -118,8 +118,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.RemoveMovie(movieToRemove) as AcceptedResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(202, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(202));
         }
 
         [Test]
@@ -133,8 +133,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.RemoveMovie(movieToRemove) as NotFoundObjectResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(404, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(404));
         }
 
         [Test]
@@ -148,8 +148,8 @@ namespace Movie.API.UnitTests.Controllers
             var result = _watchListController.RemoveMovie(movieToRemove) as StatusCodeResult;
 
             // Assert
-            Assert.NotNull(result);
-            Assert.AreEqual(500, result.StatusCode);
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.StatusCode, Is.EqualTo(500));
         }
     }
 }
