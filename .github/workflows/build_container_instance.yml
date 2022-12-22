@@ -15,11 +15,13 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       
       - name: 'Build and push image'
-        uses: azure/docker-login@v1
+        uses: azure/docker-login@v3
         with:
           login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+          build-args: |
+            "OMDB_APP_KEY=${{ secrets.OMDB_APP_KEY }}"
       - run: |
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }}
