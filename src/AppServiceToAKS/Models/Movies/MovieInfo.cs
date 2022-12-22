@@ -2,8 +2,8 @@
 {
     public class MovieInfo : MovieBase
     {
-        public string Genre { get; set; }
+        public string Genre { get; set; } = string.Empty;
 
-        public string ImdbRating { get; set; }
+        public string ImdbRating { get; set; } = string.Empty;
     }
 }

@@ -47,7 +47,8 @@ namespace Movie.API.UnitTests.Controllers
             // Assert
             Assert.That(result, Is.Not.Null);
             Assert.That(result.StatusCode, Is.EqualTo(200));
-            Assert.That((result.Value as GetWatchListResponse).Movies, Is.EqualTo(movies));
+            Assert.That(result, Is.InstanceOf<GetWatchedMoviesReponse>());
+            Assert.That(((GetWatchListResponse)result.Value).Movies, Is.EqualTo(movies));
         }
 
         [Test]
