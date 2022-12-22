@@ -48,7 +48,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: infra/ContainerApps
+        working-directory: infra/ContainerInstance
 
     steps:
       - name: Checkout
