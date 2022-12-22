@@ -3,6 +3,7 @@ WORKDIR /App
 
 ARG OMDB_APP_KEY 
 ENV omdbAppKey=${OMDB_APP_KEY}
+ENV Test=Test
 
 # Copy everything
 COPY . ./
