@@ -1,5 +1,5 @@
-on: [push]
-name: Deploy To COntainer Instance
+on: workflow_dispatch
+name: Deploy To Container Instance
 
 jobs:
   build-and-deploy:
