@@ -1,10 +1,9 @@
 using Movie.API;
-using Movie.API.Clients;
-using Movie.API.Services;
 
 public class Program
 {
-    static void Main(string[] args)
+    [STAThread]
+    public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
