@@ -19,14 +19,15 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
     image  = "moviedemoregistry.azurecr.io/moviedemo:e106fe3c3e197be32c1191af3d1cec0406754548"
     cpu    = "0.5"
     memory = "1.5"
+    // May need to set env value in here
+    environment_variables  = {
+      "omdbAppKey" = var.omdbAppKey
+    }
+
     image_registry_credential {
       username = "moviedemoregistry"
       password = var.registry_password
       server =  "moviedemoregistry.azurecr.io"
-    }
-    // May need to set env value in here
-    environment_variables  = {
-      "omdbAppKey" = var.omdbAppKey
     }
 
     ports {
