@@ -17,3 +17,7 @@ variable "tenant_id" {
 variable "omdbAppKey" {
     type        = string
 }
+
+variable "registry_password" {
+    type        = string
+}

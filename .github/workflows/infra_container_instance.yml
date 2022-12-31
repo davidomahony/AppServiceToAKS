@@ -32,7 +32,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}"
+        run: terraform plan -no-color -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}" -var="registry_password=${{ secrets.REGISTRY_PASSWORD }}"
         env:
           TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
           TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
@@ -71,7 +71,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}"
+        run: terraform plan -no-color -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}" -var="registry_password=${{ secrets.REGISTRY_PASSWORD }}"
         env:
           TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
           TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
@@ -79,7 +79,7 @@ jobs:
           TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}"
+        run: terraform apply -auto-approve -input=false -var="omdbAppKey=v${{ secrets.OMDB_APP_KEY }}" -var="registry_password=${{ secrets.REGISTRY_PASSWORD }}"
         env:
           TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
           TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
