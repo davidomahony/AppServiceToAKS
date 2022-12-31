@@ -14,6 +14,13 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
   dns_name_label        = "movie-demo-container-instance"
   os_type               = "Linux"
 
+  image_registry_credential {
+    username = "moviedemoregistry"
+    password = var.registry_password
+    server =  "moviedemoregistry.azurecr.io"
+  }
+
+
   container {
     name   = "movie-demo-container"
     image  = "moviedemoregistry.azurecr.io/moviedemo:e106fe3c3e197be32c1191af3d1cec0406754548"
@@ -22,12 +29,6 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
     // May need to set env value in here
     environment_variables  = {
       "omdbAppKey" = var.omdbAppKey
-    }
-
-    image_registry_credential {
-      username = "moviedemoregistry"
-      password = var.registry_password
-      server =  "moviedemoregistry.azurecr.io"
     }
 
     ports {
