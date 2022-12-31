@@ -24,7 +24,7 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
 
   container {
     name   = "movie-demo-container"
-    image  = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
+    image  = "moviedemoregistry.azurecr.io/moviedemo:e106fe3c3e197be32c1191af3d1cec0406754548"
     cpu    = "0.5"
     memory = "1.5"
     // May need to set env value in here
