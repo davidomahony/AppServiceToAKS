@@ -6,6 +6,14 @@ data "azurerm_resource_group" "rg-movie-demo" {
   name = "rg-movie-demo"
 }
 
+resource "azurerm_container_registry" "movie-demo-registry" {
+  name                  = "moviedemoregistry"
+  location              = "${data.azurerm_resource_group.rg-movie-demo.location}"
+  resource_group_name   = "${data.azurerm_resource_group.rg-movie-demo.name}"
+  sku                   = "Basic"
+  admin_enabled         = false
+}
+
 resource "azurerm_container_group" "movie-demo-container-instance" {
   name                  = "movie-demo-container-instance"
   location              = "${data.azurerm_resource_group.rg-movie-demo.location}"
@@ -14,16 +22,9 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
   dns_name_label        = "movie-demo-container-instance"
   os_type               = "Linux"
 
-  image_registry_credential {
-    username = "moviedemoregistry"
-    password = var.registry_password
-    server =  "moviedemoregistry.azurecr.io"
-  }
-
-
   container {
     name   = "movie-demo-container"
-    image  = "moviedemoregistry.azurecr.io/moviedemo:e106fe3c3e197be32c1191af3d1cec0406754548"
+    image  = "mcr.microsoft.com/azuredocs/aci-helloworld:latest"
     cpu    = "0.5"
     memory = "1.5"
     // May need to set env value in here
@@ -43,4 +44,3 @@ resource "azurerm_container_group" "movie-demo-container-instance" {
 }
 
 // May need to give different container groups an identity with access to registry
-// https://learn.microsoft.com/en-us/azure/container-instances/container-instances-update
