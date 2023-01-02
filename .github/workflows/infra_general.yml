@@ -1,0 +1,2 @@
+on: workflow_dispatch
+name: Deploy general infra used by other apps
