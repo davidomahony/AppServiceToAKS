@@ -2,7 +2,7 @@ on: workflow_dispatch
 name: Deploy To Container Instance
 
 jobs:
-  build-and-deploy:
+  build:
       runs-on: ubuntu-latest
 
       steps:
@@ -24,17 +24,41 @@ jobs:
           docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }} --build-arg OMDB_APP_KEY=${{ secrets.OMDB_APP_KEY }}
           docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }}
 
-      - name: 'Deploy to Azure Container Instances'
-        uses: 'azure/aci-deploy@v1'
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@main
+
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
+      with:
+        resource-group: rg-movie-demo
+        dns-name-label: rg-movie-demo${{ github.run_number }}
+        image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }}
+        registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        registry-username: ${{ secrets.REGISTRY_USERNAME }}
+        registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+        secure-environment-variables: omdbAppKey=${{ secrets.OMDB_APP_KEY }}
+        name: movie-demo-container-instance
+        location: 'eastus'
+        cpu: .5
+        memory: 1.5
+
+  test:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@main
+      
+      - name: Set up Correct Version
+        uses: actions/setup-dotnet@v1
         with:
-          resource-group: rg-movie-demo
-          dns-name-label: rg-movie-demo${{ github.run_number }}
-          image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/moviedemo:${{ github.sha }}
-          registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
-          registry-username: ${{ secrets.REGISTRY_USERNAME }}
-          registry-password: ${{ secrets.REGISTRY_PASSWORD }}
-          secure-environment-variables: omdbAppKey=${{ secrets.OMDB_APP_KEY }}
-          name: movie-demo-container-instance
-          location: 'eastus'
-          cpu: .5
-          memory: 1.5
+          dotnet-version: ${{ env.DOTNET_VERSION }} 
+
+      - name: Run Smoke Tests
+        run: |
+          dotnet test './test/Movie.API.SmokeTests/Movie.API.SmokeTests.csproj'
