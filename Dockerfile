@@ -14,7 +14,7 @@ RUN dotnet build "test/Movie.API.UnitTests/Movie.API.UnitTests.csproj"
 RUN dotnet test "test/Movie.API.UnitTests/Movie.API.UnitTests.csproj"
 
 # Build and publish a release
-RUN dotnet publish "src/AppServiceToAKS/Movie.API/Movie.API.csproj" -c Release -o out
+RUN dotnet publish "src/AppServiceToAKS/Movie.API.csproj " -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
