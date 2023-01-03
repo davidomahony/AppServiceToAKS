@@ -22,6 +22,11 @@ jobs:
         id: fmt
         run: terraform fmt
 
+      - name: Azure Cli Login
+          uses: azure/login@v1
+          with:
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Terraform Init
         id: init
         run: terraform init
