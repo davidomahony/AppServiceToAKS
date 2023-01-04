@@ -6,6 +6,15 @@ jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
+      TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+      TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+      TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
+      ARM_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
+      ARM_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+      ARM_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+      ARM_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
     defaults:
       run:
         shell: bash
@@ -21,11 +30,6 @@ jobs:
       - name: Terraform Format
         id: fmt
         run: terraform fmt
-
-      - name: Azure Cli Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Terraform Init
         id: init
