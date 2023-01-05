@@ -6,6 +6,12 @@ jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
+
     defaults:
       run:
         shell: bash
@@ -25,11 +31,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        env:
-          ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
 
       - name: Terraform Validate
         id: validate
@@ -48,6 +49,11 @@ jobs:
     name: Terraform Apply
     needs: terraform_plan
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
     environment:
       name: dev
     defaults:
