@@ -2,7 +2,7 @@ terraform {
   backend "azurerm" {
     resource_group_name     = "rg-movie-demo"
     storage_account_name    = "samoviedemo"
-    container_name          = "movie-api-containerinstance"
+    container_name          = "general"
     key                     = "infra-tfstate"
   }
   required_version = ">=0.12"
