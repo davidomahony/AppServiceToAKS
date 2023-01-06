@@ -31,8 +31,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        with:
-          args: '-backend-config="resource_group_name=rg-movie-demo" -backend-config="storage_account_name=samoviedemo" -backend-config="container_name=movie-api-appservices" -backend-config="key=infra-tfstate"'
 
       - name: Terraform Validate
         id: validate
@@ -41,11 +39,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        # env:
-        #   TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
-        #   TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-        #   TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-        #   TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
+
 
   terraform_apply:
     name: Terraform Apply
@@ -85,17 +79,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -no-color
-        env:
-          TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
-          TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-          TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-          TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -input=false
-        # env:
-        #   TF_VAR_agent_client_id: ${{ secrets.TF_VAR_CLIENT_ID }}
-        #   TF_VAR_agent_client_secret: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-        #   TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-        #   TF_VAR_tenant_id: ${{ secrets.TF_VAR_TENANTID }}
 
