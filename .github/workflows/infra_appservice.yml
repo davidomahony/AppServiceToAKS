@@ -31,6 +31,7 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        args: '-backend-config="resource_group_name=rg-movie-demo" -backend-config="storage_account_name=samoviedemo" -backend-config="container_name=movie-api-appservices" -backend-config="key=infra-tfstate"'
 
       - name: Terraform Validate
         id: validate
