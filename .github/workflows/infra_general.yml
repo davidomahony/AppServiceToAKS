@@ -1,5 +1,5 @@
 on: workflow_dispatch
-name: Deploy general infra used by other apps
+name: Provision General Infra
 
 jobs:
   terraform_plan:
