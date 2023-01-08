@@ -5,7 +5,14 @@ terraform {
     container_name          = "movie-api-appservices"
     key                     = "infra-tfstate"
   }
-  required_version = "0.12.0"
+  required_version = ">=0.14.8"
+  
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">=2.97.0"
+    }
+  }
 }
 
 provider "azurerm" {
