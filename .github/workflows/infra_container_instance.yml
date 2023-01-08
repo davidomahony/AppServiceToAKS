@@ -1,82 +1,45 @@
-name: Provision Azure Container Instance
+name: Provision App Service
 
 on: workflow_dispatch
+
+env:
+  ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
+  terraform_directory: "infra/ContainerInstance"
+  terraform_version: 0.14.8
 
 jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: infra/ContainerInstance
 
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
       - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
+        uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
+        with:
+          directory: ${{ env.terraform_directory }}
+          tf_version: ${{ env.terraform_version }}
 
   terraform_apply:
     name: Terraform Apply
     needs: terraform_plan
     runs-on: ubuntu-latest
+
     environment:
       name: dev
-    env:
-      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
-    defaults:
-      run:
-        shell: bash
-        working-directory: infra/ContainerInstance
 
     steps:
       - name: Checkout
         uses: actions/checkout@master
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate -no-color
-
       - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
+        uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
+        with:
+          directory: ${{ env.terraform_directory }}
+          tf_version: ${{ env.terraform_version }}
 
-      - name: Terraform Apply
-        run: terraform apply -auto-approve -input=false
