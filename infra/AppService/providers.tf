@@ -6,11 +6,6 @@ terraform {
     key                     = "infra-tfstate"
   }
   required_version = "0.12.0"
-  
-  required_providers {
-    azurerm = {
-    }
-  }
 }
 
 provider "azurerm" {
