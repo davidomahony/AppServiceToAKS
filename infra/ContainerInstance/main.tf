@@ -3,12 +3,12 @@ data "azurerm_resource_group" "rg-movie-demo" {
 }
 
 resource "azurerm_container_group" "movie-demo-container-instance" {
-  name                  = "cg-${local.name}"
-  location              = "${data.azurerm_resource_group.rg-movie-demo.location}"
-  resource_group_name   = "${data.azurerm_resource_group.rg-movie-demo.name}"
-  ip_address_type       = "Public"
-  dns_name_label        = "cg-${local.name}"
-  os_type               = "Linux"
+  name                = "cg-${local.name}"
+  location            = data.azurerm_resource_group.rg-movie-demo.location
+  resource_group_name = data.azurerm_resource_group.rg-movie-demo.name
+  ip_address_type     = "Public"
+  dns_name_label      = "cg-${local.name}"
+  os_type             = "Linux"
 
   container {
     name   = "${local.name}-container"
