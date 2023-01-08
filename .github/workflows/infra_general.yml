@@ -1,4 +1,4 @@
-name: Provision App Service
+name: Provision General Infra
 
 on: workflow_dispatch
 

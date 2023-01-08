@@ -1,4 +1,4 @@
-name: Provision App Service
+name: Provision Container Instance
 
 on: workflow_dispatch
 
