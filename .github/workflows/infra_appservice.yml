@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Terraform Plan
-        uses: davidomahony/SharedActions/actions/TerraformPlan@v1
+        uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
         with:
           directory: infra/AppService
 
@@ -49,7 +49,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Terraform Plan
-        uses: davidomahony/SharedActions/actions/TerraformApply@v1
+        uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
         with:
           directory: infra/AppService
 
