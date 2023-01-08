@@ -2,20 +2,18 @@ name: Provision App Service
 
 on: workflow_dispatch
 
+env:
+  ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
+  ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+  ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
+  terraform_directory: "infra/AppService"
+  terraform_version: 0.14.8
+
 jobs:
   terraform_plan:
     name: Terraform Plan
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
-
-    defaults:
-      run:
-        shell: bash
-        working-directory: infra/AppService
 
     steps:
       - name: Checkout
@@ -24,26 +22,16 @@ jobs:
       - name: Terraform Plan
         uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
         with:
-          directory: infra/AppService
-          tf_version: 0.14.8
-
-
+          directory: $terraform_directory
+          tf_version: $terraform_version
 
   terraform_apply:
     name: Terraform Apply
     needs: terraform_plan
     runs-on: ubuntu-latest
-    env:
-      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
+
     environment:
       name: dev
-    defaults:
-      run:
-        shell: bash
-        working-directory: infra/AppService
 
     steps:
       - name: Checkout
@@ -52,6 +40,6 @@ jobs:
       - name: Terraform Plan
         uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
         with:
-          directory: infra/AppService
-          tf_version: 0.14.8
+          directory: $terraform_directory
+          tf_version: $terraform_version
 
