@@ -22,8 +22,8 @@ jobs:
       - name: Terraform Plan
         uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
         with:
-          directory: $terraform_directory
-          tf_version: $terraform_version
+          directory: ${{ env.terraform_directory }}
+          tf_version: ${{ env.terraform_version }}
 
   terraform_apply:
     name: Terraform Apply
@@ -40,6 +40,6 @@ jobs:
       - name: Terraform Plan
         uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
         with:
-          directory: $terraform_directory
-          tf_version: $terraform_version
+          directory: ${{ env.terraform_directory }}
+          tf_version: ${{ env.terraform_version }}
 
