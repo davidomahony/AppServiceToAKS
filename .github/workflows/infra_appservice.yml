@@ -11,35 +11,46 @@ env:
   terraform_version: 0.14.8
 
 jobs:
-  terraform_plan:
-    name: Terraform Plan
-    runs-on: ubuntu-latest
+  tf_plan_and_apply:
+    uses: davidomahony/SharedDeployment/.github/workflows/tfplan_apply.yml@main
+    with:
+      terraform_directory: "infra/AppService"
+      terraform_version: '0.14.8'
+      environment: dev
+    secrets: inherit
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
 
-      - name: Terraform Plan
-        uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
-        with:
-          directory: ${{ env.terraform_directory }}
-          tf_version: ${{ env.terraform_version }}
 
-  terraform_apply:
-    name: Terraform Apply
-    needs: terraform_plan
-    runs-on: ubuntu-latest
+# jobs:
+#   terraform_plan:
+#     name: Terraform Plan
+#     runs-on: ubuntu-latest
 
-    environment:
-      name: dev
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@master
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@master
+#       - name: Terraform Plan
+#         uses: davidomahony/SharedActions/actions/TerraformPlan@v0.0.1
+#         with:
+#           directory: ${{ env.terraform_directory }}
+#           tf_version: ${{ env.terraform_version }}
 
-      - name: Terraform Plan
-        uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
-        with:
-          directory: ${{ env.terraform_directory }}
-          tf_version: ${{ env.terraform_version }}
+#   terraform_apply:
+#     name: Terraform Apply
+#     needs: terraform_plan
+#     runs-on: ubuntu-latest
+
+#     environment:
+#       name: dev
+
+#     steps:
+#       - name: Checkout
+#         uses: actions/checkout@master
+
+#       - name: Terraform Plan
+#         uses: davidomahony/SharedActions/actions/TerraformApply@v0.0.1
+#         with:
+#           directory: ${{ env.terraform_directory }}
+#           tf_version: ${{ env.terraform_version }}
 
