@@ -9,10 +9,11 @@ jobs:
       terraform_directory: "infra/AppService"
       terraform_version: '0.14.8'
       environment: dev
-      ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
-      ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
+      secrets: inherit
+      # ARM_CLIENT_ID: ${{ secrets.TF_VAR_CLIENT_ID }}
+      # ARM_CLIENT_SECRET: ${{ secrets.TF_VAR_CLIENT_SECRET}}
+      # ARM_SUBSCRIPTION_ID: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
+      # ARM_TENANT_ID: ${{ secrets.TF_VAR_TENANTID }}
 
 
 
